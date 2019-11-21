@@ -1,0 +1,370 @@
+.flex-grid {
+    display: flex;
+}
+
+.flex-grid .col {
+    flex: 1;
+}
+
+.flex-grid-thirds {
+    display: flex;
+    justify-content: space-between;
+}
+
+.flex-grid-thirds .col {
+    width: 32%;
+}
+
+@media (max-width: 400px) {
+    .flex-grid,
+    .flex-grid-thirds {
+        display: block;
+        .col {
+            width: 100%;
+            margin: 0 0 10px 0;
+        }
+    }
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    padding: 5;
+}
+
+.flex-grid {
+    margin: 0 0 5px 0;
+}
+
+.col {
+    /* background: salmon; */
+    padding: 5px;
+}
+
+@import url('https://fonts.googleapis.com/css?family=Roboto:100,300');
+button[data-setter] {
+    outline: none;
+    background: transparent;
+    border: none;
+    font-family: 'Roboto';
+    font-weight: 300;
+    font-size: 18px;
+    width: 25px;
+    height: 30px;
+    color: rgb(14, 9, 8);
+    cursor: pointer;
+    margin-left: +2px;
+}
+
+button[data-setter]:hover {
+    opacity: 0.5;
+}
+
+.container {
+    position: relative;
+    top: 30px;
+    width: 300px;
+    margin: 0 auto;
+}
+
+.setters {
+    position: absolute;
+    left: 85px;
+    top: 75px;
+    margin-left: +2px;
+}
+
+.minutes-set {
+    float: left;
+    margin-right: 28px;
+    margin-left: +2px;
+}
+
+.seconds-set {
+    float: right;
+    margin-left: +2px;
+}
+
+.controlls {
+    position: absolute;
+    left: 55px;
+    top: 95px;
+    text-align: center;
+    margin-left: +2px;
+}
+
+.display-remain-time {
+    font-family: 'Roboto';
+    font-weight: 100;
+    font-size: 80px;
+    color: #000000;
+    margin-left: +2px;
+}
+
+#pause {
+    outline: none;
+    background: transparent;
+    border: none;
+    margin-top: 10px;
+    width: 50px;
+    height: 50px;
+    position: relative;
+    margin-left: +2px;
+}
+
+.play::before {
+    display: block;
+    content: "";
+    position: absolute;
+    top: 8px;
+    left: 16px;
+    border-top: 15px solid transparent;
+    border-bottom: 15px solid transparent;
+    border-left: 22px solid rgb(142, 247, 189);
+    margin-left: +2px;
+}
+
+.pause::after {
+    content: "";
+    position: absolute;
+    top: 8px;
+    left: 12px;
+    width: 15px;
+    height: 30px;
+    background-color: transparent;
+    border-radius: 1px;
+    border: 5px solid #996699;
+    border-top: none;
+    border-bottom: none;
+    margin-left: +2px;
+}
+
+#pause:hover {
+    opacity: 0.8;
+}
+
+.e-c-base {
+    fill: none;
+    stroke: #000000;
+    stroke-width: 4px
+}
+
+.e-c-progress {
+    fill: none;
+    stroke: #996699;
+    stroke-width: 8px;
+    transition: stroke-dashoffset 0.7s;
+}
+
+.e-c-pointer {
+    fill: #CCCCCC;
+    stroke: #006699;
+    stroke-width: 4px;
+}
+
+#e-pointer {
+    transition: transform 0.7s;
+}
+
+h1 {
+    margin-top: 150px;
+    text-align: center;
+}
+
+body {
+    height: 100%;
+    background: linear-gradient(90deg, #006699 50%, #CCCCCC 50%);
+    padding: 0;
+    margin: 0;
+}
+
+.alignleft {
+    float: left;
+}
+
+.alignright {
+    float: right;
+}
+
+#nameOne {
+    color: #CCCCCC;
+    font-size: 70px;
+}
+
+#nameTwo {
+    color: #006699;
+    font-size: 70px;
+}
+
+#scoreOne {
+    color: #CCCCCC;
+    font-size: 90px;
+    padding-bottom: 0%;
+    margin-bottom: 0%;
+}
+
+#scoreTwo {
+    color: #006699;
+    font-size: 90px;
+}
+
+#playerOne {
+    color: #CCCCCC;
+    ;
+    font-size: 130px;
+}
+
+#playerTwo {
+    color: #006699;
+    font-size: 130px;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+
+/* Create three equal columns that floats next to each other */
+
+.column {
+    float: left;
+    width: 33.33%;
+    padding: 10px;
+    height: 300px;
+    /* Should be removed. Only for demonstration */
+}
+
+
+/* Clear floats after the columns */
+
+.row:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+.resetbutton {
+    background-color: #f4511e;
+    border: none;
+    color: white;
+    padding: 16px 32px;
+    text-align: center;
+    font-size: 16px;
+    float: center;
+    margin: auto;
+    opacity: 0.6;
+    transition: 0.3s;
+    text-decoration: none;
+    cursor: pointer;
+    position: relative;
+    top: 30px;
+    width: 300px;
+    margin: 0 auto;
+}
+
+.resetbutton:hover {
+    opacity: 1
+}
+
+input[type=text] {
+    width: 48%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    box-sizing: border-box;
+    border: 1px solid #555;
+    outline: none;
+}
+
+input[type=text]:focus {
+    background-color: lightblue;
+}
+
+
+/* Button group1*/
+
+.btn-group button {
+    background-color: #CCCCCC;
+    /* Green background */
+    border: 1px solid #000000;
+    /* Green border */
+    color: #006699;
+    /* White text */
+    padding: 10px 24px;
+    /* Some padding */
+    cursor: pointer;
+    /* Pointer/hand icon */
+    float: left !important;
+    /* Float the buttons side by side */
+}
+
+
+/* Clear floats (clearfix hack) */
+
+.btn-group:after {
+    content: "";
+    clear: both;
+    display: table;
+}
+
+.btn-group button:not(:last-child) {
+    border-right: none;
+    /* Prevent double borders */
+}
+
+
+/* Add a background color on hover */
+
+.btn-group button:hover {
+    background-color: #3e8e41;
+}
+
+
+/* Button group2*/
+
+.btn-group2 button {
+    background-color: #006699;
+    /* Green background */
+    border: 1px solid #000000;
+    /* Green border */
+    color: #CCCCCC;
+    /* White text */
+    padding: 10px 24px;
+    /* Some padding */
+    cursor: pointer;
+    /* Pointer/hand icon */
+    float: right !important;
+    /* Float the buttons side by side */
+}
+
+*/
+/* Clear floats (clearfix hack) */
+
+.btn-group2:after {
+    content: "";
+    clear: both;
+    display: table;
+}
+
+.btn-group2 button:not(:last-child) {
+    border-right: none;
+    /* Prevent double borders */
+}
+
+
+/* Add a background color on hover */
+
+.btn-group2 button:hover {
+    background-color: #3e8e41;
+}
+
+.logo {
+    height: 50%;
+    width: 50%;
+    margin-left: +75px;
+    position: relative;
+    float: center;
+    padding-bottom: 0%;
+    margin-bottom: 0%;
+}

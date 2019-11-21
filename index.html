@@ -1,0 +1,396 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="http://www.cssscript.com/wp-includes/css/sticky.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="styles.css">
+    <title>Husaria Round Counter</title>
+</head>
+
+<body>
+
+    <div class="flex-grid-thirds">
+        <div class="col">
+            <div class="container">
+                <div id="scoreOne">
+                    <div class="alignleft" id="playerOne">000</div>
+                    <br>
+                    <div class="alignleft">Score</div>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="container">
+                <div class="setters">
+                    <div class="minutes-set">
+                        <button data-setter="minutes-plus">+</button>
+                        <button data-setter="minutes-minus">-</button>
+                    </div>
+                    <div class="seconds-set">
+                        <button data-setter="seconds-plus">+</button>
+                        <button data-setter="seconds-minus">-</button>
+                    </div>
+                </div>
+                <div class="circle"> <svg width="300" viewBox="0 0 220 220" xmlns="http://www.w3.org/2000/svg">
+            <g transform="translate(110,110)">
+              <circle r="100" class="e-c-base"/>
+              <g transform="rotate(-90)">
+                <circle r="100" class="e-c-progress"/>
+                <g id="e-pointer">
+                  <circle cx="100" cy="0" r="8" class="e-c-pointer"/>
+                </g>
+              </g>
+            </g>
+            </svg> </div>
+                <div class="controlls">
+                    <div class="display-remain-time">00:00</div>
+                    <button class="play" id="pause"></button>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="container">
+                <div id="scoreTwo">
+                    <div class="alignleft" id="playerTwo">000</div>
+                    <div class="alignleft">Score</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="flex-grid-thirds">
+        <div class="col">
+            <div class="container">
+                <div id="nameOne">
+                    <div class="alignright">Player One</div>
+                </div>
+                <div id="clubOne">
+                    <div class="alignleft">Club</div>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="container">
+                <div>
+                    <button class="resetbutton" id="reset"> Reset Timer</button>
+                    <div style="clear: both;"></div>
+                </div>
+                <br>
+                <div>
+                    <button class="resetbutton" onclick="setFightDetail()"> Set Match</button>
+                    <div style="clear: both;"></div>
+                </div>
+                <br><br>
+                <div>
+                    <img class="logo" src="./images/logo2.PNG" alt="Flowers in Chania">
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="container">
+                <div id="nameTwo">
+                    <div class="alignright">Player Two</div>
+                </div>
+                <div id="clubTwo">
+                    <div class="alignleft">Club</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="flex-grid-thirds">
+        <div class="col">
+            <div class="btn-group">
+                <button class="alignleft" onclick="addTwoPointPlayerOne()">2 Points</button>
+                <button class="alignleft" onclick="addThreePointPlayerOne()">3 Points</button>
+                <button class="alignleft" onclick="addFourPointPlayerOne()">4 Points</button>
+                <button class="negitave" id="negitave" onclick="removeOnePointPlayerOne()"> - 1 Point</button>
+            </div>
+        </div>
+        <div class="col">
+
+        </div>
+        <div class="col">
+            <div class="btn-group2">
+                <button class="alignright" onclick="addTwoPointPlayerTwo()">2 Points</button>
+                <button class="alignright" onclick="addThreePointPlayerTwo()">3 Points</button>
+                <button class="alignright" onclick="addFourPointPlayerTwo()">4 Points</button>
+                <button class="alignright" onclick="removeOnePointPlayerTwo()"> - 1 Point</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="flex-grid-thirds">
+        <div class="col">
+            <input class="alignleft" type="text" id="fnamePlayerOne" name="fnamePlayerOne" placeholder="Name">
+            <input class="alignleft" type="text" id="cnamePlayerOne" name="cnamePlayerOne" placeholder="Club Name">
+        </div>
+        <div class="col">
+            <div class="container">
+            </div>
+        </div>
+        <div class="col">
+            <input class="alignright" type="text" id="cnamePlayerTwo" name="cnamePlayerTwo" placeholder="Club Name">
+            <input class="alignright" type="text" id="fnamePlayerTwo" name="fnamePlayerTwo" placeholder=" Name">
+        </div>
+    </div>
+
+    <!-- <div class="flex-grid-half">
+        <div class="col">This little piggy went to market.</div>
+        <div class="col">This little piggy stayed home.</div>
+    </div> -->
+
+
+
+    <script>
+        //circle start
+        let progressBar = document.querySelector('.e-c-progress');
+        let indicator = document.getElementById('e-indicator');
+        let pointer = document.getElementById('e-pointer');
+        let length = Math.PI * 2 * 100;
+
+        progressBar.style.strokeDasharray = length;
+
+        function update(value, timePercent) {
+            var offset = -length - length * value / (timePercent);
+            progressBar.style.strokeDashoffset = offset;
+            pointer.style.transform = `rotate(${360 * value / (timePercent)}deg)`;
+        };
+
+        //circle ends
+        const displayOutput = document.querySelector('.display-remain-time')
+        const pauseBtn = document.getElementById('pause');
+        const resetBtn = document.getElementById('reset');
+
+        const setterBtns = document.querySelectorAll('button[data-setter]');
+
+        let intervalTimer;
+        let timeLeft;
+        let wholeTime = 0.0 * 60; // manage this to set the whole time 
+        let isPaused = false;
+        let isStarted = false;
+        let isReset = false;
+
+
+        update(wholeTime, wholeTime); //refreshes progress bar
+        displayTimeLeft(wholeTime);
+
+        function changeWholeTime(seconds) {
+            if ((wholeTime + seconds) > 0) {
+                wholeTime += seconds;
+                update(wholeTime, wholeTime);
+            }
+        }
+
+        for (var i = 0; i < setterBtns.length; i++) {
+            setterBtns[i].addEventListener("click", function(event) {
+                var param = this.dataset.setter;
+                switch (param) {
+                    case 'minutes-plus':
+                        changeWholeTime(1 * 60);
+                        break;
+                    case 'minutes-minus':
+                        changeWholeTime(-1 * 60);
+                        break;
+                    case 'seconds-plus':
+                        changeWholeTime(1);
+                        break;
+                    case 'seconds-minus':
+                        changeWholeTime(-1);
+                        break;
+                }
+                displayTimeLeft(wholeTime);
+            });
+        }
+
+        function timer(seconds) { //counts time, takes seconds
+            let remainTime = Date.now() + (seconds * 1000);
+            displayTimeLeft(seconds);
+
+            intervalTimer = setInterval(function() {
+                timeLeft = Math.round((remainTime - Date.now()) / 1000);
+                if (timeLeft < 0) {
+                    clearInterval(intervalTimer);
+                    isStarted = false;
+                    setterBtns.forEach(function(btn) {
+                        btn.disabled = false;
+                        btn.style.opacity = 1;
+                    });
+                    displayTimeLeft(wholeTime);
+                    pauseBtn.classList.remove('pause');
+                    pauseBtn.classList.add('play');
+                    return;
+                }
+                displayTimeLeft(timeLeft);
+            }, 1000);
+        }
+
+        function pauseTimer(event) {
+            if (isStarted === false) {
+                timer(wholeTime);
+                isStarted = true;
+                this.classList.remove('play');
+                this.classList.add('pause');
+
+                setterBtns.forEach(function(btn) {
+                    btn.disabled = true;
+                    btn.style.opacity = 0.5;
+                });
+
+            } else if (isPaused) {
+                this.classList.remove('play');
+                this.classList.add('pause');
+                timer(timeLeft);
+                isPaused = isPaused ? false : true
+            } else {
+                this.classList.remove('pause');
+                this.classList.add('play');
+                clearInterval(intervalTimer);
+                isPaused = isPaused ? false : true;
+            }
+        }
+
+        function displayTimeLeft(timeLeft) { //displays time on the input
+            let minutes = Math.floor(timeLeft / 60);
+            let seconds = timeLeft % 60;
+            let displayString = `${minutes < 10 ? '0' : ''}${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+            displayOutput.textContent = displayString;
+            update(timeLeft, wholeTime);
+        }
+
+        pauseBtn.addEventListener('click', pauseTimer);
+
+        function resetTimer(event) { // reset the time but not the scores 
+            clearInterval(intervalTimer);
+            isStarted = false;
+            setterBtns.forEach(function(btn) {
+                btn.disabled = false;
+                btn.style.opacity = 1;
+            });
+            displayTimeLeft(wholeTime);
+            pauseBtn.classList.remove('pause');
+            pauseBtn.classList.add('play');
+        }
+
+        resetBtn.addEventListener('click', resetTimer);
+    </script>
+
+
+
+    <!-- <script>
+            (function(i, s, o, g, r, a, m) {
+                i['GoogleAnalyticsObject'] = r;
+                i[r] = i[r] || function() {
+                    (i[r].q = i[r].q || []).push(arguments)
+                }, i[r].l = 1 * new Date();
+                a = s.createElement(o),
+                    m = s.getElementsByTagName(o)[0];
+                a.async = 1;
+                a.src = g;
+                m.parentNode.insertBefore(a, m)
+            })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+    
+            ga('create', 'UA-46156385-1', 'cssscript.com');
+            ga('send', 'pageview');
+        </script> -->
+
+    <script>
+        var playerOneScore = 0;
+
+
+        function addTwoPointPlayerOne() {
+
+            playerOneScore += 2;
+            document.getElementById("playerOne").innerHTML = "&nbsp&nbsp&nbsp" + playerOneScore + "&nbsp&nbsp&nbsp&nbsp";
+            console.log("Add");
+        };
+
+        function addThreePointPlayerOne() {
+
+            playerOneScore += 3;
+            document.getElementById("playerOne").innerHTML = "&nbsp&nbsp&nbsp" + playerOneScore + "&nbsp&nbsp&nbsp&nbsp";
+            console.log("Add");
+        };
+
+        function addFourPointPlayerOne() {
+
+            playerOneScore += 4;
+            document.getElementById("playerOne").innerHTML = "&nbsp&nbsp&nbsp" + playerOneScore + "&nbsp&nbsp&nbsp&nbsp";
+            console.log("Add");
+        };
+
+        function removeOnePointPlayerOne() {
+
+            playerOneScore -= 1;
+            document.getElementById("playerOne").innerHTML = "&nbsp&nbsp&nbsp" + playerOneScore + "&nbsp&nbsp&nbsp&nbsp";
+            console.log("Remove");
+        };
+    </script>
+
+    <script>
+        var playerTwoScore = 0;
+
+
+        function addTwoPointPlayerTwo() {
+
+            playerTwoScore += 2;
+            document.getElementById("playerTwo").innerHTML = "&nbsp&nbsp&nbsp" + playerTwoScore + "&nbsp&nbsp&nbsp&nbsp";
+            console.log("Add");
+        };
+
+        function addThreePointPlayerTwo() {
+
+            playerTwoScore += 3;
+            document.getElementById("playerTwo").innerHTML = "&nbsp&nbsp&nbsp" + playerTwoScore + "&nbsp&nbsp&nbsp&nbsp";
+            console.log("Add");
+        };
+
+        function addFourPointPlayerTwo() {
+
+            playerTwoScore += 4;
+            document.getElementById("playerTwo").innerHTML = "&nbsp&nbsp&nbsp" + playerTwoScore + "&nbsp&nbsp&nbsp&nbsp";
+            console.log("Add");
+        };
+
+        function removeOnePointPlayerTwo() {
+
+            playerTwoScore -= 1;
+            document.getElementById("playerTwo").innerHTML = "&nbsp&nbsp&nbsp" + playerTwoScore + "&nbsp&nbsp&nbsp&nbsp";
+            console.log("Remove");
+        };
+    </script>
+
+
+    <script>
+        function setFightDetail() {
+            var playerOneName;
+            var playerTwoName;
+
+            var playerOneClub;
+            var playerTwoClub;
+
+            playerOneName = this.document.getElementById("fnamePlayerOne").value;
+            playerTwoName = this.document.getElementById("fnamePlayerTwo").value;
+
+            playerOneClub = this.document.getElementById("cnamePlayerOne").value;
+            playerTwoClub = this.document.getElementById("cnamePlayerTwo").value;
+
+
+            console.log(playerOneName);
+            document.getElementById("nameOne").innerHTML = playerOneName.toUpperCase();
+            document.getElementById("nameTwo").innerHTML = playerTwoName.toUpperCase();
+
+            document.getElementById("clubOne").innerHTML = playerOneClub.toUpperCase();
+            document.getElementById("clubTwo").innerHTML = playerTwoClub.toUpperCase();
+
+
+            console.log("Player One Name Sets" + playerOneClub + playerTwoClub);
+        };
+    </script>
+
+
+</body>
+
+</html>
